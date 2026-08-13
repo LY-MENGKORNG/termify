@@ -1,1 +1,6 @@
-//! The Application Configuration.
+//! App configuration.
+//!
+
+pub mod constant;
+pub mod err;
+pub mod paths;

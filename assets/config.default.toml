@@ -1,0 +1,109 @@
+# termify configuration
+#
+# Every value below is optional except `client_id`. Delete a line to fall back
+# to the default shown in the comment.
+
+[spotify]
+# Client ID of your app from https://developer.spotify.com/dashboard
+#
+# termify uses the Authorization Code flow with PKCE, which needs no client
+# secret. Nothing sensitive belongs in this file.
+client_id = ""
+
+# Must match a Redirect URI registered for your app, character for character.
+#
+# Spotify requires a loopback *IP literal* here: `localhost` is rejected.
+# termify listens on this port only while you are signing in.
+redirect_uri = "http://127.0.0.1:8888/callback"
+
+# How often to ask Spotify what is playing, in seconds. Progress is
+# interpolated locally between polls, so raising these keeps the bar smooth
+# while making fewer requests.
+# poll_playing_secs = 5
+# poll_idle_secs = 15
+
+[playback]
+# Where audio comes out.
+#
+#   "local"  — termify plays audio itself, appearing in Spotify as its own
+#              device. Needs Spotify Premium. This is the default.
+#   "remote" — termify only controls a device running elsewhere (the desktop
+#              app, your phone, a speaker). Something else has to be playing.
+# mode = "local"
+
+# The name termify announces itself under in Spotify's device lists.
+# device_name = "termify"
+
+# Volume the local device starts at, as a percentage.
+#
+# Only used until you change the volume in termify, after which the last one
+# you set is remembered instead. See "remembered settings" at the bottom.
+# initial_volume = 70
+
+# With nothing loaded, pressing play starts your Liked Songs. Until the library
+# pages land this is the only way to begin listening without another Spotify
+# client, so it is on by default.
+# autoplay_liked_songs = true
+
+# Port used for the one-off sign-in that authorises audio playback.
+#
+# Local playback signs in a second time, under Spotify's own client id: the
+# credential it hands back is only accepted from the id that asked for it, and
+# a third-party app cannot present that id. The path is fixed by what Spotify
+# has registered, so only the port is yours to choose. Change it if something
+# else already listens here; nothing binds it outside a sign-in.
+# callback_port = 5588
+
+[ui]
+# One of the built-in themes — "dark", "midnight", "neon", "ember", "paper" —
+# or the file name (without .toml) of a theme in themes/. A file of the same
+# name as a built-in replaces it, which is how the default gets retuned.
+#
+# Press t while running to try the others on. Your choice there is remembered
+# and wins over this line, which is only the theme a fresh install opens in.
+# theme = "dark"
+
+# Animation clock in milliseconds. Lower is smoother; the screen is only
+# repainted when something visible actually changed.
+# tick_ms = 250
+
+# Width of the expanded sidebar. Below 100 columns it collapses to an icon
+# rail automatically, and below 80 it hides.
+# sidebar_width = 22
+
+# Seek distance for < and >, and volume step for - and +.
+# seek_step_secs = 5
+# volume_step = 5
+
+# Time-synced lyrics on Now Playing. They come from lrclib.net, which has
+# nothing to do with Spotify: see the README before turning it on elsewhere.
+# lyrics = true
+
+# The spectrum on Now Playing. Only ever drawn while termify itself is
+# playing — there are no samples to read when a phone has the audio.
+# visualizer = true
+
+# How that spectrum is drawn. Press v to switch between them while running.
+#
+#   "mirror" — dots mirrored around a centre axis, coloured by the theme's
+#              gradient. This is the default.
+#   "bars"   — block bars growing up from the floor, in the accent colour.
+#
+# Like the theme, the one you switch to while running is remembered.
+# visualizer_style = "mirror"
+
+# Remembered settings
+#
+# Volume, theme and visualizer_style can all be changed from inside termify,
+# so termify writes them to a state.toml of its own — never to this file,
+# which would cost you these comments. Run `termify --paths` to find it.
+# Once written, it wins over the three lines above; delete it to go back to
+# what this file says.
+
+# Rebind keys as "key" = "action". Run termify and press ? to see the
+# current bindings and the action names.
+#
+# [keys]
+# "ctrl+d" = "move_down"
+# "x" = "toggle_shuffle"
+[keys]
