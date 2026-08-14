@@ -1,0 +1,43 @@
+//! A deep-blue built-in theme.
+//!
+//! The same shallow scale as [`super::dark`], moved off neutral grey: surfaces
+//! carry a trace of indigo so the blue accent belongs to them rather than
+//! sitting on top.
+
+use super::color::Hex;
+use super::palette::Palette;
+
+/// Name reported by this theme.
+pub const NAME: &str = "midnight";
+
+/// Indigo surfaces, a blue accent, a violet second.
+pub const PALETTE: Palette = Palette {
+    bg: Hex::rgb(0x0b, 0x0f, 0x1e),
+    surface: Hex::rgb(0x11, 0x17, 0x2c),
+    overlay: Hex::rgb(0x18, 0x20, 0x39),
+    border: Hex::rgb(0x27, 0x31, 0x50),
+    selection: Hex::rgb(0x1e, 0x2a, 0x4a),
+
+    text: Hex::rgb(0xe4, 0xe9, 0xf5),
+    subtext: Hex::rgb(0xa4, 0xb0, 0xcc),
+    muted: Hex::rgb(0x6a, 0x76, 0x94),
+
+    accent: Hex::rgb(0x7a, 0xa2, 0xf7),
+    accent_alt: Hex::rgb(0xbb, 0x9a, 0xf7),
+
+    success: Hex::rgb(0x73, 0xda, 0xca),
+    warning: Hex::rgb(0xe0, 0xaf, 0x68),
+    error: Hex::rgb(0xf7, 0x76, 0x8e),
+
+    progress_filled: Hex::rgb(0x7a, 0xa2, 0xf7),
+    progress_empty: Hex::rgb(0x27, 0x31, 0x50),
+
+    spectrum: [
+        Hex::rgb(0xe0, 0x6c, 0x9f),
+        Hex::rgb(0xbb, 0x9a, 0xf7),
+        Hex::rgb(0x7a, 0xa2, 0xf7),
+        Hex::rgb(0x56, 0xb6, 0xe8),
+        Hex::rgb(0x73, 0xda, 0xca),
+        Hex::rgb(0xb8, 0xf0, 0xe4),
+    ],
+};

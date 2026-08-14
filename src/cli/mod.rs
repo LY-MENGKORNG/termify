@@ -6,6 +6,7 @@ use anyhow::{Context, Result};
 use clap::Parser;
 
 use crate::{
+    app::App,
     cli::constant::BANNER,
     config::{Conf, err::ConfErr, paths::Paths},
     services::logger::{Logger, constant::FILTER_ENV_LOG},
@@ -63,7 +64,7 @@ impl Cli {
             return Ok(());
         }
 
-        let _conf = match Conf::load(&paths) {
+        let conf = match Conf::load(&paths) {
             Ok(conf) => conf,
             Err(err @ ConfErr::CreatedTemplate { .. }) => {
                 println!("{err}");
@@ -72,9 +73,12 @@ impl Cli {
             Err(err) => return Err(err.into()),
         };
 
-        // TODO: Create tokio runtime new multi thread and run on it.
+        let runtime = tokio::runtime::Builder::new_multi_thread()
+            .enable_all()
+            .build()
+            .context("could not start the async runtime")?;
 
-        Ok(())
+        runtime.block_on(App::new(conf, &paths))
     }
 
     fn logout(_paths: &Paths) -> Result<bool> {

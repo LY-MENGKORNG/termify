@@ -32,20 +32,16 @@ impl Conf {
         }
 
         // Read config path
-        let raw = fs::read_to_string(&path)
-            .map_err(|source| ConfErr::Io {
-                path: path.clone(),
-                source,
-            })
-            .expect("Unable to read from config path!");
+        let raw = fs::read_to_string(&path).map_err(|source| ConfErr::Io {
+            path: path.clone(),
+            source,
+        })?;
 
         // Deserialize the raw config
-        let conf: Conf = toml::from_str(&raw)
-            .map_err(|source| ConfErr::Parse {
-                path: path.clone(),
-                source: Box::new(source),
-            })
-            .expect("Unable to deserialize!");
+        let conf: Conf = toml::from_str(&raw).map_err(|source| ConfErr::Parse {
+            path: path.clone(),
+            source: Box::new(source),
+        })?;
 
         conf.validate(&path)?;
         Ok(conf)
