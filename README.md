@@ -46,7 +46,7 @@ else on your account.
 ## Getting started
 
 ```sh
-cargo run
+cargo run # run development
+cargo fmt && cargo clippy --all-targets -- -D warnings # formatting
 ```
-
 
