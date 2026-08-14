@@ -9,7 +9,7 @@ use clap::Parser;
 
 use crate::{
     cli::constant::BANNER,
-    config::paths::Paths,
+    config::{Conf, err::ConfErr, paths::Paths},
     services::logger::{Logger, constant::FILTER_ENV_LOG},
 };
 
@@ -65,10 +65,22 @@ impl Cli {
             return Ok(());
         }
 
+        let _conf = match Conf::load(&paths) {
+            Ok(conf) => conf,
+            Err(err @ ConfErr::CreatedTemplate { .. }) => {
+                println!("{err}");
+                return Ok(());
+            }
+            Err(err) => return Err(err.into()),
+        };
+
+        // TODO: Create tokio runtime new multi thread and run on it.
+
         Ok(())
     }
 
-    fn logout(paths: &Paths) -> Result<bool> {
-        todo!("Forgets all necessary credentails")
+    fn logout(_paths: &Paths) -> Result<bool> {
+        // TODO: Forgets all necessary credentails
+        Ok(true)
     }
 }
