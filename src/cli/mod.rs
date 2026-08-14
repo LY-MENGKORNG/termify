@@ -1,6 +1,4 @@
 //! The command line arguments for the app.
-//!
-//!
 
 pub mod constant;
 
