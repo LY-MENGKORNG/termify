@@ -1,6 +1,6 @@
 //! What termify remembers about itself between runs.
 
-use crate::{app::states::constant::HEADER, models::ui::VisualizerStyle};
+use crate::{constant::state::HEADER, models::ui::VisualizerStyle};
 use serde::{Deserialize, Serialize};
 use std::{fs, io, path::Path};
 

@@ -1,5 +1,4 @@
 //! Configuration for Spotify
-//!
 
 use std::path::Path;
 

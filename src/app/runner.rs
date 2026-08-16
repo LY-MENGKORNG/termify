@@ -12,7 +12,7 @@ impl AppRunner {
         Self { state }
     }
 
-    pub async fn run(mut self) -> std::io::Result<()> {
+    pub async fn run(&self) -> std::io::Result<()> {
         Ok(())
     }
 }

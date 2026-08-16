@@ -1,14 +1,12 @@
 //! The command line arguments for the app.
 
-pub mod constant;
-
 use anyhow::{Context, Result};
 use clap::Parser;
 
 use crate::{
     app::App,
-    cli::constant::BANNER,
     config::{Conf, err::ConfErr, paths::Paths},
+    constant::BANNER,
     services::logger::{Logger, constant::FILTER_ENV_LOG},
 };
 

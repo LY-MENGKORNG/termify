@@ -1,6 +1,5 @@
 //! App configuration.
 
-pub mod constant;
 pub mod err;
 pub mod paths;
 pub mod spotify;
@@ -8,7 +7,8 @@ pub mod spotify;
 use serde::{Deserialize, Serialize};
 use std::{fs, path::Path};
 
-use crate::config::{constant::DEFAULT_TEMPLATE, err::ConfErr, paths::Paths, spotify::SpotifyConf};
+use crate::config::{err::ConfErr, paths::Paths, spotify::SpotifyConf};
+use crate::constant::config::DEFAULT_TEMPLATE;
 
 #[derive(Debug, Clone, Default, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(default, deny_unknown_fields)]

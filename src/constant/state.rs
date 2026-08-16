@@ -5,7 +5,7 @@ use std::time::Duration;
 /// Holding `+` sends a keypress per repeat; without this, each one would be a
 /// separate write. Every field here is cheap to lose, so trading a couple of
 /// seconds of durability for one write per burst is the right way round.
-const DEBOUNCE: Duration = Duration::from_secs(2);
+pub const DEBOUNCE: Duration = Duration::from_secs(2);
 
 /// Header written above the values, for anyone who finds the file.
 pub const HEADER: &str = "\

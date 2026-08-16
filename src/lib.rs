@@ -3,6 +3,7 @@ pub mod api;
 pub mod app;
 pub mod cli;
 pub mod config;
+pub mod constant;
 pub mod models;
 pub mod render;
 pub mod services;
