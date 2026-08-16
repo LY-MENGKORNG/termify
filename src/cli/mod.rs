@@ -32,18 +32,7 @@ impl Cli {
         println!("{BANNER}");
 
         if cli.paths {
-            println!("configuration  {}", paths.config_file().display());
-            println!("themes         {}", paths.themes_dir().display());
-            println!("saved state    {}", paths.state_file().display());
-            println!("session token  {}", paths.token_file().display());
-            println!("audio token    {}", paths.streaming_token_file().display());
-            println!("audio cache    {}", paths.librespot_dir().display());
-            println!("log            {}", paths.log_file().display());
-            println!();
-            println!(
-                "Set {} to change the log level, e.g. termify=debug",
-                FILTER_ENV_LOG
-            );
+            Self::print_paths(&paths);
             return Ok(());
         }
 
@@ -78,11 +67,25 @@ impl Cli {
             .build()
             .context("could not start the async runtime")?;
 
-        runtime.block_on(App::new(conf, &paths))
+        runtime.block_on(App::init(conf, &paths))
     }
 
     fn logout(_paths: &Paths) -> Result<bool> {
         // TODO: Forgets all necessary credentails
         Ok(true)
+    }
+    fn print_paths(paths: &Paths) {
+        println!("configuration  {}", paths.config_file().display());
+        println!("themes         {}", paths.themes_dir().display());
+        println!("saved state    {}", paths.state_file().display());
+        println!("session token  {}", paths.token_file().display());
+        println!("audio token    {}", paths.streaming_token_file().display());
+        println!("audio cache    {}", paths.librespot_dir().display());
+        println!("log            {}", paths.log_file().display());
+        println!();
+        println!(
+            "Set {} to change the log level, e.g. termify=debug",
+            FILTER_ENV_LOG
+        );
     }
 }
