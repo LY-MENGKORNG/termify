@@ -5,13 +5,13 @@ use std::path::Path;
 
 use crate::{constant::HEADER, model::ui::VisualizerStyle};
 
-/// The settings termusic carries from one run to the next.
+/// The settings termify carries from one run to the next.
 #[derive(Debug, Clone, Default, PartialEq, Eq, Deserialize, Serialize)]
 // Unknown keys are allowed, unlike in `config.toml`: an older binary should lose
 // the key it cannot understand rather than refuse the whole file.
 #[serde(default)]
 pub struct SavedState {
-    /// Volume last set from inside termusic, as a percentage.
+    /// Volume last set from inside termify, as a percentage.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub volume: Option<u8>,
     /// Theme last chosen in the picker.

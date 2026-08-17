@@ -1,9 +1,11 @@
-use crate::constant::{
-    APP_DIR, CACHE_DIR_ENV, CACHE_SUBDIR, CONFIG_DIR_ENV, CREDENTIALS_FILE, STATE_DIR_ENV,
-    logger::FILTER_ENV_LOG,
+use crate::{
+    constant::{
+        APP_DIR, CACHE_DIR_ENV, CACHE_SUBDIR, CONFIG_DIR_ENV, CREDENTIALS_FILE, STATE_DIR_ENV,
+        logger::FILTER_ENV_LOG,
+    },
+    error::config::ConfigError,
 };
 
-use super::error::ConfigError;
 use directories::{BaseDirs, ProjectDirs};
 use std::{
     env,

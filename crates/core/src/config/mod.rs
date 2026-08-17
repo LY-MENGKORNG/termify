@@ -1,16 +1,16 @@
-pub mod error;
 pub mod paths;
+pub mod playback;
 pub mod recorder;
 pub mod state;
 
 use std::{fs, path::Path};
 
-pub use error::*;
 pub use paths::*;
+pub use playback::*;
 pub use recorder::*;
 pub use state::*;
 
-use crate::{constant::DEFAULT_TEMPLATE, model::config::Config};
+use crate::{constant::DEFAULT_TEMPLATE, error::config::ConfigError, model::config::Config};
 
 /// Loads and validates configuration, creating a starter file when absent.
 pub fn load(paths: &Paths) -> Result<Config, ConfigError> {
