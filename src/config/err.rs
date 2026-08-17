@@ -1,14 +1,8 @@
+use crate::constant::config::{CONFIG_DIR_ENV, DASHBOARD_URL};
 use std::{io, path::PathBuf};
-
 use thiserror::Error;
 
-use super::constant::DASHBOARD_URL;
-use crate::config::paths::constant::CONFIG_DIR_ENV;
-
 /// Configuration could not be loaded, or is unusable as written.
-///
-/// Every message is written for the person running the binary, not for a
-/// stack trace: it says what is wrong and what to do about it.
 #[derive(Debug, Error)]
 pub enum ConfErr {
     /// Neither `$HOME` nor a platform directory could be determined.

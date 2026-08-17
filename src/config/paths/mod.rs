@@ -1,18 +1,10 @@
-pub mod constant;
-
+use super::err::ConfErr;
+use crate::constant::config::{APP_DIR, CACHE_DIR_ENV, CONFIG_DIR_ENV, STATE_DIR_ENV};
+use crate::services::local::constant::{CACHE_SUBDIR, CREDENTIALS_FILE};
+use directories::{BaseDirs, ProjectDirs};
 use std::{
     env,
     path::{Path, PathBuf},
-};
-
-use directories::{BaseDirs, ProjectDirs};
-
-use crate::{
-    config::{
-        err::ConfErr,
-        paths::constant::{APP_DIR, CACHE_DIR_ENV, CONFIG_DIR_ENV, STATE_DIR_ENV},
-    },
-    services::local::constant::{CACHE_SUBDIR, CREDENTIALS_FILE},
 };
 
 /// Which platform-default directory to fall back to.
@@ -63,9 +55,6 @@ impl Paths {
     }
 
     /// Builds a set of paths rooted at explicit directories, for tests.
-    ///
-    /// State lands in the cache root unless [`Self::with_state_dir`] says
-    /// otherwise, which keeps the common case to two arguments.
     pub fn with_roots(config_dir: impl Into<PathBuf>, cache_dir: impl Into<PathBuf>) -> Self {
         let cache_dir = cache_dir.into();
         Self {
@@ -95,10 +84,6 @@ impl Paths {
     }
 
     /// Directory holding `state.toml`.
-    ///
-    /// Separate from the cache because the contents are not reconstructible:
-    /// clearing a cache should cost nothing, and forgetting which theme the
-    /// user picked is not nothing.
     #[must_use]
     pub fn state_dir(&self) -> &Path {
         &self.state
@@ -122,12 +107,6 @@ impl Paths {
         self.cache.join("token.json")
     }
 
-    /// Cached credential for the streaming session, kept at `0600`.
-    ///
-    /// Deliberately not the same file as [`token_file`](Self::token_file).
-    /// Local playback authorises under a different client id entirely, so the
-    /// two credentials expire, refresh, and are revoked independently — sharing
-    /// one file would mean renewing either could invalidate the other.
     #[must_use]
     pub fn streaming_token_file(&self) -> PathBuf {
         self.cache.join("streaming.json")
@@ -140,10 +119,6 @@ impl Paths {
     }
 
     /// The reusable credential librespot writes after a successful login.
-    ///
-    /// A credential in its own right, and the one that survives clearing
-    /// [`token_file`](Self::token_file) — which is what used to make signing
-    /// out look like it had done nothing.
     #[must_use]
     pub fn librespot_credentials_file(&self) -> PathBuf {
         self.librespot_dir().join(CREDENTIALS_FILE)
@@ -156,9 +131,6 @@ impl Paths {
     }
 
     /// What termify remembers between runs: volume, theme, spectrum style.
-    ///
-    /// Written by the application, never by hand — unlike
-    /// [`config_file`](Self::config_file), which is the other way around.
     #[must_use]
     pub fn state_file(&self) -> PathBuf {
         self.state.join("state.toml")

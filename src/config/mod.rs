@@ -1,20 +1,28 @@
 //! App configuration.
 
-pub mod constant;
 pub mod err;
 pub mod paths;
 pub mod spotify;
 
 use serde::{Deserialize, Serialize};
+use std::collections::BTreeMap;
 use std::{fs, path::Path};
 
-use crate::config::{constant::DEFAULT_TEMPLATE, err::ConfErr, paths::Paths, spotify::SpotifyConf};
+use crate::config::{err::ConfErr, paths::Paths, spotify::SpotifyConf};
+use crate::constant::config::DEFAULT_TEMPLATE;
+use crate::models::ui::UiConf;
 
 #[derive(Debug, Clone, Default, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(default, deny_unknown_fields)]
 pub struct Conf {
     /// Credentials and API behaviour.
-    spotify: SpotifyConf,
+    pub spotify: SpotifyConf,
+    /// Where audio comes out.
+    // pub playback: PlaybackConf,
+    /// Appearance and timing.
+    pub ui: UiConf,
+    /// Key rebindings, as `"key" = "action"`.
+    pub keys: BTreeMap<String, String>,
 }
 
 impl Conf {
@@ -32,20 +40,16 @@ impl Conf {
         }
 
         // Read config path
-        let raw = fs::read_to_string(&path)
-            .map_err(|source| ConfErr::Io {
-                path: path.clone(),
-                source,
-            })
-            .expect("Unable to read from config path!");
+        let raw = fs::read_to_string(&path).map_err(|source| ConfErr::Io {
+            path: path.clone(),
+            source,
+        })?;
 
         // Deserialize the raw config
-        let conf: Conf = toml::from_str(&raw)
-            .map_err(|source| ConfErr::Parse {
-                path: path.clone(),
-                source: Box::new(source),
-            })
-            .expect("Unable to deserialize!");
+        let conf: Conf = toml::from_str(&raw).map_err(|source| ConfErr::Parse {
+            path: path.clone(),
+            source: Box::new(source),
+        })?;
 
         conf.validate(&path)?;
         Ok(conf)
