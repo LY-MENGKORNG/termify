@@ -18,7 +18,7 @@ pub struct UiConfig {
     pub volume_step: u8,
     /// Whether to look up lyrics for the playing track.
     pub lyrics: bool,
-    /// Whether to draw a spectrum while termusic itself is playing.
+    /// Whether to draw a spectrum while termify itself is playing.
     pub visualizer: bool,
     /// How that spectrum is drawn. Also switchable while running.
     pub visualizer_style: VisualizerStyle,

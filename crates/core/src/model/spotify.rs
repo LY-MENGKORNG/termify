@@ -2,8 +2,7 @@ use std::{path::Path, time::Duration};
 
 use serde::{Deserialize, Serialize};
 
-use crate::config::ConfigError;
-use crate::util;
+use crate::{error::config::ConfigError, util};
 
 /// Spotify credentials and polling behaviour.
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
@@ -68,7 +67,7 @@ impl SpotifyConfig {
         Ok(())
     }
 
-    /// Port termusic should listen on for the OAuth callback.
+    /// Port termify should listen on for the OAuth callback.
     #[must_use]
     pub fn callback_port(&self) -> Option<u16> {
         util::url::redirect_port(self.redirect_uri.trim())

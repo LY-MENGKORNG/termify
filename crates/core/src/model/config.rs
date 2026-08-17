@@ -3,8 +3,9 @@ use std::{collections::BTreeMap, path::Path};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    config::ConfigError,
-    model::{playback::PlaybackConfig, spotify::SpotifyConfig, ui::UiConfig},
+    config::PlaybackConfig,
+    error::config::ConfigError,
+    model::{spotify::SpotifyConfig, ui::UiConfig},
 };
 
 /// Everything the user can configure.
