@@ -1,10 +1,14 @@
 pub mod error;
 pub mod paths;
+pub mod recorder;
+pub mod state;
 
 use std::{fs, path::Path};
 
 pub use error::*;
 pub use paths::*;
+pub use recorder::*;
+pub use state::*;
 
 use crate::{constant::DEFAULT_TEMPLATE, model::config::Config};
 

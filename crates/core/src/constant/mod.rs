@@ -2,15 +2,12 @@ pub mod config;
 pub mod local;
 pub mod logger;
 pub mod path;
-pub mod state;
 
 use std::{fs, path::Path};
 
 pub use config::*;
 pub use local::*;
 pub use path::*;
-pub use state::*;
-pub use state::*;
 
 use crate::{
     config::{ConfigError, Paths},
