@@ -1,4 +1,4 @@
-//! where you get high 🥵
+//! where you start getting high 🥵
 
 // use std::io::{self, Write};
 
@@ -14,7 +14,12 @@ pub mod states;
 pub struct App {}
 
 impl App {
-    pub async fn init(_conf: Conf, _paths: &Paths) -> Result<()> {
+    pub async fn init(_config: Conf, _paths: &Paths) -> Result<()> {
+        Self::prepare().await?;
+        Ok(())
+    }
+
+    pub async fn prepare() -> Result<()> {
         Ok(())
     }
 }

@@ -1,8 +1,9 @@
 //! Configuration for Spotify
 
-use std::path::Path;
+pub mod scope;
 
 use serde::{Deserialize, Serialize};
+use std::{path::Path, time::Duration};
 
 use crate::{config::err::ConfErr, utils::url::redirect_port};
 
@@ -21,6 +22,18 @@ pub struct SpotifyConf {
 }
 
 impl SpotifyConf {
+    /// Interval between polls while audio is playing.
+    #[must_use]
+    pub fn poll_playing(&self) -> Duration {
+        Duration::from_secs(self.poll_playing_secs.max(1))
+    }
+
+    /// Interval between polls while paused or idle.
+    #[must_use]
+    pub fn poll_idle(&self) -> Duration {
+        Duration::from_secs(self.poll_idle_secs.max(1))
+    }
+
     pub fn validate(&self, config_path: &Path) -> Result<(), ConfErr> {
         if self.client_id.trim().is_empty() {
             return Err(ConfErr::MissingClientId {
@@ -55,6 +68,12 @@ impl SpotifyConf {
         }
 
         Ok(())
+    }
+
+    /// Port termusic should listen on for the OAuth callback.
+    #[must_use]
+    pub fn callback_port(&self) -> Option<u16> {
+        redirect_port(self.redirect_uri.trim())
     }
 }
 

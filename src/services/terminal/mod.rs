@@ -29,9 +29,6 @@ impl Terminal {
     }
 
     /// Chains a logging hook in front of whichever hook is currently installed.
-    ///
-    /// Ratatui's own hook (installed by `try_init`) restores the terminal, and the
-    /// default hook prints the message; we only add the log line, then delegate.
     fn install_panic_logger() {
         static ONCE: Once = Once::new();
 

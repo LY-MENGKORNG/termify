@@ -5,16 +5,24 @@ pub mod paths;
 pub mod spotify;
 
 use serde::{Deserialize, Serialize};
+use std::collections::BTreeMap;
 use std::{fs, path::Path};
 
 use crate::config::{err::ConfErr, paths::Paths, spotify::SpotifyConf};
 use crate::constant::config::DEFAULT_TEMPLATE;
+use crate::models::ui::UiConf;
 
 #[derive(Debug, Clone, Default, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(default, deny_unknown_fields)]
 pub struct Conf {
     /// Credentials and API behaviour.
-    spotify: SpotifyConf,
+    pub spotify: SpotifyConf,
+    /// Where audio comes out.
+    // pub playback: PlaybackConf,
+    /// Appearance and timing.
+    pub ui: UiConf,
+    /// Key rebindings, as `"key" = "action"`.
+    pub keys: BTreeMap<String, String>,
 }
 
 impl Conf {
