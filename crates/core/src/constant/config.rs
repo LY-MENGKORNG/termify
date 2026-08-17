@@ -1,0 +1,8 @@
+/// Commented starter file written on first run.
+pub const DEFAULT_TEMPLATE: &str = include_str!("../../../../assets/config.default.toml");
+
+/// URL of the dashboard where users register an app.
+pub const DASHBOARD_URL: &str = "https://developer.spotify.com/dashboard";
+
+/// File librespot stores its reusable credential in, under [`CACHE_SUBDIR`].
+pub const CREDENTIALS_FILE: &str = "credentials.json";

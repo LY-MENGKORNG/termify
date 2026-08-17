@@ -1,0 +1,195 @@
+use crate::constant::{
+    APP_DIR, CACHE_DIR_ENV, CACHE_SUBDIR, CONFIG_DIR_ENV, CREDENTIALS_FILE, STATE_DIR_ENV,
+    logger::FILTER_ENV_LOG,
+};
+
+use super::error::ConfigError;
+use directories::{BaseDirs, ProjectDirs};
+use std::{
+    env,
+    path::{Path, PathBuf},
+};
+
+/// Which platform-default directory to fall back to.
+#[derive(Clone, Copy)]
+enum DirKind {
+    Config,
+    Cache,
+    State,
+}
+
+/// Resolved locations of every file the application reads or writes.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Paths {
+    config: PathBuf,
+    cache: PathBuf,
+    state: PathBuf,
+}
+
+impl Paths {
+    /// Resolves paths from the environment.
+    ///
+    /// Precedence: explicit override, then XDG, then `~/.config` (Unix), then
+    /// the platform default.
+    pub fn resolve() -> Result<Self, ConfigError> {
+        let config_dir = Self::resolve_dir(
+            CONFIG_DIR_ENV,
+            "XDG_CONFIG_HOME",
+            ".config",
+            DirKind::Config,
+        )
+        .ok_or(ConfigError::NoHomeDirectory)?;
+        let cache_dir =
+            Self::resolve_dir(CACHE_DIR_ENV, "XDG_CACHE_HOME", ".cache", DirKind::Cache)
+                .ok_or(ConfigError::NoHomeDirectory)?;
+        let state_dir = Self::resolve_dir(
+            STATE_DIR_ENV,
+            "XDG_STATE_HOME",
+            ".local/state",
+            DirKind::State,
+        )
+        .ok_or(ConfigError::NoHomeDirectory)?;
+
+        Ok(Self {
+            config: config_dir,
+            cache: cache_dir,
+            state: state_dir,
+        })
+    }
+
+    /// Builds a set of paths rooted at explicit directories, for tests.
+    pub fn with_roots(config_dir: impl Into<PathBuf>, cache_dir: impl Into<PathBuf>) -> Self {
+        let cache_dir = cache_dir.into();
+        Self {
+            config: config_dir.into(),
+            state: cache_dir.clone(),
+            cache: cache_dir,
+        }
+    }
+
+    /// Points state at its own directory, for tests that care about the split.
+    #[must_use]
+    pub fn with_state_dir(mut self, state_dir: impl Into<PathBuf>) -> Self {
+        self.state = state_dir.into();
+        self
+    }
+
+    /// Directory holding `config.toml` and `themes/`.
+    #[must_use]
+    pub fn config_dir(&self) -> &Path {
+        &self.config
+    }
+
+    /// Directory holding the token cache and the log file.
+    #[must_use]
+    pub fn cache_dir(&self) -> &Path {
+        &self.cache
+    }
+
+    /// Directory holding `state.toml`.
+    #[must_use]
+    pub fn state_dir(&self) -> &Path {
+        &self.state
+    }
+
+    /// The main configuration file.
+    #[must_use]
+    pub fn config_file(&self) -> PathBuf {
+        self.config.join("config.toml")
+    }
+
+    /// Directory scanned for user-supplied `*.toml` themes.
+    #[must_use]
+    pub fn themes_dir(&self) -> PathBuf {
+        self.config.join("themes")
+    }
+
+    /// Cached OAuth token. Contains a refresh token, so it is kept at `0600`.
+    #[must_use]
+    pub fn token_file(&self) -> PathBuf {
+        self.cache.join("token.json")
+    }
+
+    #[must_use]
+    pub fn streaming_token_file(&self) -> PathBuf {
+        self.cache.join("streaming.json")
+    }
+
+    /// Directory librespot keeps its own credential and audio cache in.
+    #[must_use]
+    pub fn librespot_dir(&self) -> PathBuf {
+        self.cache.join(CACHE_SUBDIR)
+    }
+
+    /// The reusable credential librespot writes after a successful login.
+    #[must_use]
+    pub fn librespot_credentials_file(&self) -> PathBuf {
+        self.librespot_dir().join(CREDENTIALS_FILE)
+    }
+
+    /// Rolling log file.
+    #[must_use]
+    pub fn log_file(&self) -> PathBuf {
+        self.cache.join("termify.log")
+    }
+
+    /// What termify remembers between runs: volume, theme, spectrum style.
+    #[must_use]
+    pub fn state_file(&self) -> PathBuf {
+        self.state.join("state.toml")
+    }
+
+    fn resolve_dir(
+        override_env: &str,
+        xdg_env: &str,
+        home_subdir: &str,
+        kind: DirKind,
+    ) -> Option<PathBuf> {
+        if let Some(dir) = Self::non_empty(override_env) {
+            return Some(dir);
+        }
+
+        if let Some(dir) = Self::non_empty(xdg_env) {
+            return Some(dir.join(APP_DIR));
+        }
+
+        if cfg!(unix)
+            && let Some(base) = BaseDirs::new()
+        {
+            return Some(base.home_dir().join(home_subdir).join(APP_DIR));
+        }
+
+        let dirs = ProjectDirs::from("", "", APP_DIR)?;
+        let dir = match kind {
+            DirKind::Config => dirs.config_dir(),
+            DirKind::Cache => dirs.cache_dir(),
+            // Windows has no state directory of its own; roaming this would sync
+            // one machine's volume onto another, so the local data dir it is.
+            DirKind::State => dirs.data_local_dir(),
+        };
+        Some(dir.to_path_buf())
+    }
+
+    /// Reads an environment variable, treating an empty value as unset.
+    fn non_empty(key: &str) -> Option<PathBuf> {
+        let value = env::var_os(key)?;
+        if value.is_empty() {
+            return None;
+        }
+        Some(PathBuf::from(value))
+    }
+    pub fn print_paths(&self) {
+        println!("configuration  {}", self.config_file().display());
+        println!("themes         {}", self.themes_dir().display());
+        println!("saved state    {}", self.state_file().display());
+        println!("session token  {}", self.token_file().display());
+        println!("audio token    {}", self.streaming_token_file().display());
+        println!("audio cache    {}", self.librespot_dir().display());
+        println!("log            {}", self.log_file().display());
+        println!();
+        println!(
+            "Set {} to change the log level, e.g. termify=debug",
+            FILTER_ENV_LOG
+        );
+    }
+}
