@@ -1,10 +1,13 @@
 //! The command line arguments for the app.
 use anyhow::{Context, Result};
 use clap::Parser;
-use termify_core::app;
-use termify_core::config::{self, ConfigError, Paths};
-use termify_core::constant::BANNER;
-use termify_core::service::logger;
+use termify_core::{
+    app,
+    config::{self, Paths},
+    constant::BANNER,
+    error::config::ConfigError,
+    service::logger,
+};
 
 #[derive(Debug, Parser)]
 #[command(name = "termify", version, about, long_about = None)]
