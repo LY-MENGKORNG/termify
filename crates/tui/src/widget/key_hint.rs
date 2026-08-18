@@ -1,13 +1,11 @@
 //! Keyboard hints.
 
 use ratatui::text::Span;
+use termify_core::constant::SEPARATOR;
+use termify_core::event::Action;
+use termify_core::input::{Chord, KeyMap};
 
-use crate::events::Action;
-use crate::input::{Chord, KeyMap};
 use crate::theme::Theme;
-
-/// Separator between hints. A middle dot rather than a pipe: quieter.
-pub const SEPARATOR: &str = " · ";
 
 /// Renders `key label` as two spans, the key emphasised.
 #[must_use]

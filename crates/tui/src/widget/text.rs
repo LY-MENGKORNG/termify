@@ -7,7 +7,7 @@ use ratatui::layout::{Alignment, Rect};
 use ratatui::style::Style;
 use ratatui::text::Line;
 
-use crate::utils::text;
+use termify_core::util::text;
 
 /// Draws `lines` from the top of `area`, one per row.
 pub fn render_lines(lines: &[Line<'_>], area: Rect, buffer: &mut Buffer) {
