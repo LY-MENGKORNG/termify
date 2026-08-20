@@ -20,7 +20,7 @@ pub struct Device {
 }
 
 impl Device {
-    /// Whether termusic can transfer playback here.
+    /// Whether termify can transfer playback here.
     #[must_use]
     pub fn is_selectable(&self) -> bool {
         self.id.is_some() && !self.is_restricted

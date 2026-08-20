@@ -6,7 +6,7 @@ use thiserror::Error;
 #[derive(Debug, Error)]
 pub enum AuthError {
     /// The configured redirect URI has no usable port.
-    #[error("`redirect_uri` needs an explicit port so termusic can listen for the callback")]
+    #[error("`redirect_uri` needs an explicit port so termify can listen for the callback")]
     NoCallbackPort,
 
     /// The callback port is already taken.
@@ -23,7 +23,7 @@ pub enum AuthError {
     },
 
     /// The user did not return from the browser in time.
-    #[error("timed out waiting for the browser; run termusic again to retry")]
+    #[error("timed out waiting for the browser; run termify again to retry")]
     TimedOut,
 
     /// The user declined, or Spotify rejected the request.
@@ -68,7 +68,7 @@ pub enum AuthError {
     EmptyToken,
 
     /// The cached session has no refresh token, so it cannot be renewed.
-    #[error("this session cannot be renewed; run `termusic --logout` and sign in again")]
+    #[error("this session cannot be renewed; run `termify --logout` and sign in again")]
     NoRefreshToken,
 
     /// Spotify refused to renew the token.

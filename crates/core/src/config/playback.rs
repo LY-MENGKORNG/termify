@@ -6,10 +6,10 @@ use crate::constant::{DEFAULT_CALLBACK_PORT, DEFAULT_DEVICE_NAME};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum PlaybackMode {
-    /// termusic decodes audio itself, appearing as its own Connect device.
+    /// termify decodes audio itself, appearing as its own Connect device.
     #[default]
     Local,
-    /// termusic only commands a device running elsewhere.
+    /// termify only commands a device running elsewhere.
     Remote,
 }
 
@@ -19,7 +19,7 @@ pub enum PlaybackMode {
 pub struct PlaybackConfig {
     /// Whether to play audio here or drive another device.
     pub mode: PlaybackMode,
-    /// Name termusic announces itself under in Spotify's device lists.
+    /// Name termify announces itself under in Spotify's device lists.
     pub device_name: String,
     /// Volume the local device starts at, as a percentage.
     pub initial_volume: u8,
