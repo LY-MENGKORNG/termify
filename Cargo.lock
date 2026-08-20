@@ -2311,6 +2311,7 @@ dependencies = [
  "anyhow",
  "crossterm",
  "directories",
+ "ratatui",
  "reqwest",
  "serde",
  "serde_json",
