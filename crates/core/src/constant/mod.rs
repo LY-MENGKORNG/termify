@@ -1,3 +1,5 @@
+pub mod api;
+pub mod auth;
 pub mod config;
 pub mod local;
 pub mod logger;
@@ -6,6 +8,8 @@ pub mod page;
 pub mod path;
 pub mod widget;
 
+pub use api::*;
+pub use auth::*;
 pub use config::*;
 pub use local::*;
 pub use lyric::*;

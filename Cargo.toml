@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/core", "crates/cli", "crates/tui"]
+members = ["crates/core", "crates/cli"]
 
 [workspace.package]
 version = "0.1.0"
@@ -26,6 +26,12 @@ rspotify = { version = "0.16.1", default-features = false, features = [
   "client-reqwest",
   "reqwest-rustls-tls",
 ] }
+librespot = { version = "0.8.0", default-features = false, features = [
+  "rustls-tls-native-roots",
+  "rodio-backend",
+] }
+
+chrono = { version = "0.4", default-features = false }
 reqwest = { version = "0.13.4", default-features = false, features = [
   "rustls",
   "query",
@@ -50,4 +56,10 @@ unicode-width = "0.2.2"
 unicode-segmentation = "1.13.3"
 
 [profile.dev]
+opt-level = 1
 debug = "line-tables-only"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true

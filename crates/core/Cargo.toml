@@ -17,3 +17,14 @@ unicode-segmentation = { workspace = true }
 reqwest = { workspace = true }
 serde_json = { workspace = true }
 crossterm = { workspace = true }
+tokio = { workspace = true }
+ratatui = { workspace = true }
+rspotify = { workspace = true }
+chrono = { workspace = true }
+open = { workspace = true }
+librespot = { workspace = true, optional = true }
+
+# [features]
+# default = ["local-playback"]
+#
+# local-playback = ["dep:librespot"]

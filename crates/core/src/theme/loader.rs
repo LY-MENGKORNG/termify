@@ -3,7 +3,7 @@
 use std::fs;
 use std::path::Path;
 
-use termify_core::error::theme::ThemeError;
+use crate::error::ThemeError;
 
 use super::Theme;
 

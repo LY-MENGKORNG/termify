@@ -5,7 +5,8 @@ use std::fmt;
 use ratatui::style::Color;
 use serde::de::{self, Visitor};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
-use termify_core::error::theme::ParseColorError;
+
+use crate::error::ParseColorError;
 
 /// A color as written in a theme file.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

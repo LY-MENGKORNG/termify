@@ -28,7 +28,7 @@ pub enum PlaybackError {
     ),
 
     /// The session could not be renewed.
-    #[error("Session expired — restart termusic to sign in again")]
+    #[error("Session expired — restart termify to sign in again")]
     AuthExpired,
 
     /// The account is not on the app's allowlist.
@@ -54,7 +54,7 @@ pub enum PlaybackError {
     Malformed,
 
     /// A URI we hold could not be used for playback.
-    #[error("That item cannot be played from termusic")]
+    #[error("That item cannot be played from termify")]
     Unplayable,
 }
 

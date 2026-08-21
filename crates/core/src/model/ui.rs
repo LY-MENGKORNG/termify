@@ -18,6 +18,8 @@ pub struct UiConfig {
     pub volume_step: u8,
     /// Whether to look up lyrics for the playing track.
     pub lyrics: bool,
+    /// Whether to draw the playing track's cover as ASCII art.
+    pub artwork: bool,
     /// Whether to draw a spectrum while termify itself is playing.
     pub visualizer: bool,
     /// How that spectrum is drawn. Also switchable while running.
@@ -52,6 +54,7 @@ impl Default for UiConfig {
             sidebar_width: 22,
             seek_step_secs: 5,
             volume_step: 5,
+            artwork: true,
             lyrics: true,
             visualizer: true,
             visualizer_style: VisualizerStyle::default(),
