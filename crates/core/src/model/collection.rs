@@ -64,7 +64,7 @@ impl Collection {
         }
     }
 
-    /// Builds a collection, for fixtures and tests.
+    /// Builds a collection.
     #[must_use]
     pub fn new(
         kind: CollectionKind,

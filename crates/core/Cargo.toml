@@ -22,3 +22,9 @@ ratatui = { workspace = true }
 rspotify = { workspace = true }
 chrono = { workspace = true }
 open = { workspace = true }
+librespot = { workspace = true, optional = true }
+
+# [features]
+# default = ["local-playback"]
+#
+# local-playback = ["dep:librespot"]

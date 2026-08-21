@@ -2,6 +2,7 @@ pub mod lifecycle;
 pub mod route;
 pub mod setting;
 
+use lifecycle::Lifecycle;
 use setting::Settings;
 
 use crate::theme::Theme;
@@ -9,10 +10,12 @@ use crate::theme::Theme;
 pub struct AppState {
     /// Configuration-derived knobs.
     pub settings: Settings,
-    /// Theme
+    /// Active theme.
     pub theme: Theme,
+    /// Themes that can be switched to, in the order the picker lists them.
+    themes: Vec<Theme>,
     /// Whether to keep running.
-    pub lifecycle: lifecycle::Lifecycle,
+    pub lifecycle: Lifecycle,
     /// Set when something visible changed. Private: use [`Self::mark_dirty`].
     dirty: bool,
 }
@@ -23,6 +26,7 @@ impl AppState {
     pub fn new(theme: Theme, settings: Settings) -> Self {
         let mut state = Self {
             theme,
+            themes: Vec::new(),
             settings,
             lifecycle: Lifecycle::Running,
             dirty: true,

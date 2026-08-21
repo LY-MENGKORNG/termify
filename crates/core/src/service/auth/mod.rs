@@ -2,6 +2,7 @@ pub mod cache;
 pub mod callback;
 pub mod pkce;
 pub mod scope;
+pub mod streaming;
 
 use std::io;
 use std::path::{Path, PathBuf};
@@ -13,6 +14,7 @@ pub use cache::*;
 pub use callback::*;
 pub use pkce::*;
 pub use scope::*;
+pub use streaming::*;
 
 use crate::error::{AuthError, Endpoint};
 use crate::model::SpotifyConfig;

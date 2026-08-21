@@ -1,10 +1,13 @@
 pub mod app;
+pub mod components;
 pub mod config;
 pub mod constant;
 pub mod error;
 pub mod event;
 pub mod input;
 pub mod model;
+pub mod page;
+// pub mod renderer;
 pub mod service;
 pub mod state;
 pub mod theme;
