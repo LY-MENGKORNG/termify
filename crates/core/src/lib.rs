@@ -1,4 +1,5 @@
 pub mod app;
+pub mod components;
 pub mod config;
 pub mod constant;
 pub mod error;
@@ -7,4 +8,6 @@ pub mod input;
 pub mod model;
 pub mod service;
 pub mod state;
+pub mod theme;
 pub mod util;
+pub mod widget;
